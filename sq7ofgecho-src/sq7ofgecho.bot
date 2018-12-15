@@ -1,0 +1,52 @@
+{
+  "name": "sq7ofgecho",
+  "padlock": "D0RzUZ38jvDSVhXtdCcvFA==!kEG1tKXV7OaVbdbWssR6sOIMYeos2KoTZH/YKWo3zDyT35oVMrTIdAt+ByHvfCN1",
+  "version": "2.0",
+  "services": [
+    {
+      "tenantId": "0d6252a1-546d-4cc5-b0f6-605b199e7d38",
+      "subscriptionId": "46d927c5-f2d4-4815-804e-658009f9dca3",
+      "resourceGroup": "resourceGroup",
+      "serviceName": "sq7ofgecho",
+      "type": "abs",
+      "name": "sq7ofgecho",
+      "id": "1"
+    },
+    {
+      "connectionString": "9hQJ+q0gI4/gnkW7WVYWGA==!4cMR4GzeWg3JLBmeyp7A10O7/QlVEJ+tCURwB1vH6hkL4Uijlwc/2fxRBvk0G9xGUAMY/PLEfYTLXh4WXewxuzUXDd3UMsJDR8urEuDs91123jorY3HOccnCqlqK9ZcoaEp4nHVgHjWflWkhu/FYtbujoWbNYL0DYhXoKJ9utfPizw8tP9WdO0BmGtUMzAuGs3Ovjob2CEV0L9XnEb1I3Q==",
+      "tenantId": "0d6252a1-546d-4cc5-b0f6-605b199e7d38",
+      "subscriptionId": "46d927c5-f2d4-4815-804e-658009f9dca3",
+      "resourceGroup": "resourceGroup",
+      "serviceName": "sq7ofgecho8f39",
+      "type": "blob",
+      "id": "2"
+    },
+    {
+      "appId": "",
+      "appPassword": "",
+      "endpoint": "http://localhost:3978/api/messages",
+      "type": "endpoint",
+      "name": "development",
+      "id": "3"
+    },
+    {
+      "appId": "64910f81-9f88-4b8f-9ef6-dd6f907a342c",
+      "appPassword": "0e2pjCgInbIMwZwdCRgQoQ==!WkGZlJ1stIIeNmFGc73wJlEj1HNwavAJZwCsH3NBKBU=",
+      "endpoint": "https://sq7ofgecho.azurewebsites.net/api/messages",
+      "type": "endpoint",
+      "name": "production",
+      "id": "4"
+    },
+    {
+      "instrumentationKey": "olDyFqs/ACM7bqUdprhKGw==!kQSfbucQch8Dng3qlL8Pa3io4d1gEPNBSTKocBpmuy+lJyiSsHbzcprDtkBhU8ek",
+      "applicationId": "1875ef5b-b5dd-4af3-b001-dc00639794f4",
+      "apiKeys": {},
+      "tenantId": "0d6252a1-546d-4cc5-b0f6-605b199e7d38",
+      "subscriptionId": "46d927c5-f2d4-4815-804e-658009f9dca3",
+      "resourceGroup": "resourceGroup",
+      "serviceName": "sq7ofgechow6l5lp",
+      "type": "appInsights",
+      "id": "5"
+    }
+  ]
+}
