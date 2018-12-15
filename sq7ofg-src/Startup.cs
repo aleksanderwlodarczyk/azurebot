@@ -59,8 +59,10 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            var secretKey = Configuration.GetSection("botFileSecret")?.Value;
-            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+            //var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+            //var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+            var secretKey = "CNjqDnw4n9d8zTXmmrywJybwHQ+K1Ke0AmmTWTS5854=";
+            var botFilePath = "./sq7ofg.bot";
             if (!File.Exists(botFilePath))
             {
                 throw new FileNotFoundException($"The .bot configuration file was not found. botFilePath: {botFilePath}");
