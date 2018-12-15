@@ -76,17 +76,7 @@ namespace Microsoft.BotBuilderSamples
                 await _accessors.ConversationState.SaveChangesAsync(turnContext);
 
                 // Echo back to the user whatever they typed.
-
-                var responseMessage = "";
-
-                if (turnContext.Activity.Text.Contains("Hello"))
-                {
-                    responseMessage = "Hi!";
-                }
-                else
-                {
-                    responseMessage = $"Turn {newState.TurnCount}: You sent so fucking stupid message '{turnContext.Activity.Text}'\n";
-                }
+                var responseMessage = $"Turn {newState.TurnCount}: You sent '{turnContext.Activity.Text}'\n";
                 await turnContext.SendActivityAsync(responseMessage);
             }
             else

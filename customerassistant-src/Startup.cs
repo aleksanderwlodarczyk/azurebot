@@ -62,10 +62,8 @@ namespace Microsoft.BotBuilderSamples
                 // Creates a logger for the application to use.
                 ILogger logger = _loggerFactory.CreateLogger<EchoWithCounterBot>();
 
-                //var secretKey = Configuration.GetSection("botFileSecret")?.Value;
-                //var botFilePath = Configuration.GetSection("botFilePath")?.Value;
-                var secretKey = "vSe0/KProIRCdBjOq9btjfYevW2aAUAe8AeDuMWtrZ4=";
-                var botFilePath = "./sq7ofgecho.bot";
+                var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+                var botFilePath = Configuration.GetSection("botFilePath")?.Value;
                 if (!File.Exists(botFilePath))
                 {
                     throw new FileNotFoundException($"The .bot configuration file was not found. botFilePath: {botFilePath}");
