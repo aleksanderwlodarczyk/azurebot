@@ -16,6 +16,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Bot.Builder.Azure;
+using Microsoft.Azure.Documents;
+using EchoBotWithCounter;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -26,6 +29,9 @@ namespace Microsoft.BotBuilderSamples
     {
         private ILoggerFactory _loggerFactory;
         private bool _isProduction = false;
+
+        private static readonly AzureBlobStorage blobStorageConfig = new AzureBlobStorage("DefaultEndpointsProtocol=https;AccountName=sq7ofgblobs;AccountKey=2k0LVUrttdcPB50R3DNIgZrB2ff1yapC6Iv0r/SeCKFW4D+bL2ezwy8zO0lCw/Adw2ysPSdsu13OZ07RtXufFw==;EndpointSuffix=core.windows.net", "bot-storage");
+
 
         public Startup(IHostingEnvironment env)
         {
@@ -57,13 +63,21 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddBot<EchoWithCounterBot>(options =>
             {
+
+                var blobStore = new AzureBlobTranscriptStore("DefaultEndpointsProtocol=https;AccountName=sq7ofgblobs;AccountKey=2k0LVUrttdcPB50R3DNIgZrB2ff1yapC6Iv0r/SeCKFW4D+bL2ezwy8zO0lCw/Adw2ysPSdsu13OZ07RtXufFw==;EndpointSuffix=core.windows.net", "bot-storage");
+                var transcriptMiddleware = new TranscriptLoggerMiddleware(blobStore);
+                options.Middleware.Add(transcriptMiddleware);
                 // Creates a logger for the application to use.
                 ILogger logger = _loggerFactory.CreateLogger<EchoWithCounterBot>();
+                
 
-                var secretKey = Configuration.GetSection("botFileSecret")?.Value;
-                var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+                //var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+                //var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+                var secretKey = "s0/1svAFPxOxUcTfsyoILPUcWLfJlACnsGlkzAotEGw=";
+                var botFilePath = "./customerassistant.bot";
                 if (!File.Exists(botFilePath))
                 {
                     throw new FileNotFoundException($"The .bot configuration file was not found. botFilePath: {botFilePath}");
@@ -109,11 +123,14 @@ namespace Microsoft.BotBuilderSamples
                 options.OnTurnError = async (context, exception) =>
                 {
                     logger.LogError($"Exception caught : {exception}");
+                    Console.WriteLine($"Exception: {exception}");
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
                 // The Memory Storage used here is for local bot debugging only. When the bot
                 // is restarted, everything stored in memory will be gone.
+
+
                 IStorage dataStore = new MemoryStorage();
 
                 // For production bots use the Azure Blob or
@@ -136,13 +153,27 @@ namespace Microsoft.BotBuilderSamples
 
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
+                
                 var conversationState = new ConversationState(dataStore);
-
+                var userState = new UserState(dataStore);
+                
                 options.State.Add(conversationState);
+
+                services.AddSingleton<StateBotAccessors>(sp =>
+                {
+                    // Create the custom state accessor.
+                    return new StateBotAccessors(conversationState, userState)
+                    {
+                        ConversationDataAccessor = conversationState.CreateProperty<ConversationData>(StateBotAccessors.ConversationDataName),
+                        UserProfileAccessor = userState.CreateProperty<UserData>(StateBotAccessors.UserProfileName),
+                    };
+                });
+
             });
 
             // Create and register state accessors.
             // Accessors created here are passed into the IBot-derived class on every turn.
+
             services.AddSingleton<EchoBotAccessors>(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
@@ -164,9 +195,13 @@ namespace Microsoft.BotBuilderSamples
                     CounterState = conversationState.CreateProperty<CounterState>(EchoBotAccessors.CounterStateName),
                 };
 
+
+
                 return accessors;
             });
         }
+        
+
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {

@@ -15,5 +15,6 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <value>The number of turns in the conversation.</value>
         public int TurnCount { get; set; } = 0;
+        public bool UserPromptedForEmail { get; set; }
     }
 }
